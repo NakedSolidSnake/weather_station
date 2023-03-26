@@ -10,14 +10,5 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 add_subdirectory (communication)
+add_subdirectory (services)
 
-add_executable(server "")
-target_link_libraries(server ${CONAN_LIBS} communication)
-target_sources(server 
-    PUBLIC 
-    ${CMAKE_CURRENT_LIST_DIR}/src/main.c
-    )
-
-add_custom_command(TARGET server POST_BUILD 
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/assets 
-    ${CMAKE_BINARY_DIR}/bin/assets) 
