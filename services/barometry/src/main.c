@@ -1,8 +1,8 @@
 #include <producer.h>
 #include <time.h>
 
-#define SENSOR_TYPE  "temperature"
-#define FIX_VALUE    22.26
+#define SENSOR_TYPE  "barometry"
+#define FIX_VALUE    1120.00
 
 int main (int argc, char *argv[])
 {

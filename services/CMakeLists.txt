@@ -1,3 +1,5 @@
 add_subdirectory (producer)
 add_subdirectory (temperature)
+add_subdirectory (humidity)
+add_subdirectory (barometry)
 add_subdirectory (concentrator)
