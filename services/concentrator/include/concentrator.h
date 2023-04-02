@@ -2,12 +2,14 @@
 #define CONCENTRATOR_H
 
 #include <udp_controller.h>
+#include <web_controller.h>
 
 #define BUFFER_SIZE 1024
 
 typedef struct 
 {
     udp_controller_t udp;
+    web_controller_t web;
     char buffer [BUFFER_SIZE];
 } concentrator_t;
 

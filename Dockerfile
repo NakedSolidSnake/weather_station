@@ -7,6 +7,7 @@ RUN pip install conan==1.59
 WORKDIR /development
 
 EXPOSE 8089
+EXPOSE 8090
 
 ENTRYPOINT [ "/bin/tail", "-f", "/dev/null" ]
 

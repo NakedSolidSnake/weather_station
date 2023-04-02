@@ -8,3 +8,4 @@ services:
       - ./conan:/root/.conan
     ports:
       - "8089:8089/udp"
+      - "8090:8090"
