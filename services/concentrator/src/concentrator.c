@@ -1,9 +1,13 @@
 #include <concentrator.h>
 #include <udp_events.h>
 #include <handlers.h>
+#include <pthread.h>
 
 static bool concentrator_udp_controller_open (concentrator_t *object);
 static bool concentrator_web_controller_open (concentrator_t *object);
+
+static void *concentrator_udp_run (void *args);
+static void *concentrator_web_run (void *args);
 
 bool concentrator_init (concentrator_t *object)
 {
@@ -43,11 +47,16 @@ bool concentrator_run (concentrator_t *object)
 
     if (object != NULL)
     {
-        // if (udp_controller_run (&object->udp) == true)
-        if (web_controller_run (&object->web) == true)
-        {
-            status = true;
-        }
+        pthread_t udp_thread;
+        pthread_t web_thread;
+
+        pthread_create (&udp_thread, NULL, concentrator_udp_run, &object->udp);
+        pthread_create (&web_thread, NULL, concentrator_web_run, &object->web);
+
+        pthread_join (udp_thread, NULL);
+        pthread_join (web_thread, NULL);
+
+        status = true;
     }
 
     return status;
@@ -123,4 +132,18 @@ static bool concentrator_web_controller_open (concentrator_t *object)
     }
 
     return status;
+}
+
+static void *concentrator_udp_run (void *args)
+{
+    udp_controller_t *udp = (udp_controller_t *)args;
+    udp_controller_run (udp);
+    return NULL;
+}
+
+static void *concentrator_web_run (void *args)
+{
+    web_controller_t *web = (web_controller_t *)args;
+    web_controller_run (web);
+    return NULL;
 }

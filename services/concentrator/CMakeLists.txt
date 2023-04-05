@@ -1,5 +1,5 @@
 add_executable(concentrator "")
-target_link_libraries(concentrator ${CONAN_LIBS} communication)
+target_link_libraries(concentrator ${CONAN_LIBS} communication pthread)
 target_sources(concentrator 
     PUBLIC 
     ${CMAKE_CURRENT_LIST_DIR}/src/main.c
