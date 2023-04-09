@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static const char *JSON_FORMAT = "{\"sensor\":\"%s\",\"value\":%.2f,\"date\":\"%s\"}\n";
+static const char *JSON_FORMAT = "{\"type\":\"%s\",\"value\":%.2f,\"date\":\"%s\"}\n";
 
 bool producer_init (producer_t *object)
 {

@@ -11,4 +11,5 @@ conan_basic_setup()
 
 add_subdirectory (communication)
 add_subdirectory (services)
+add_subdirectory (third_parties)
 

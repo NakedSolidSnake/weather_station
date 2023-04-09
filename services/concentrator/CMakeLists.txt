@@ -1,5 +1,5 @@
 add_executable(concentrator "")
-target_link_libraries(concentrator ${CONAN_LIBS} communication pthread)
+target_link_libraries(concentrator ${CONAN_LIBS} communication pthread cjson)
 target_sources(concentrator 
     PUBLIC 
     ${CMAKE_CURRENT_LIST_DIR}/src/main.c
@@ -9,6 +9,8 @@ target_sources(concentrator
     ${CMAKE_CURRENT_LIST_DIR}/src/web_controller/web_controller.c
     ${CMAKE_CURRENT_LIST_DIR}/src/web_controller/handlers/handlers.c
     ${CMAKE_CURRENT_LIST_DIR}/src/web_controller/webserver/webserver.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/dto/sensor_message.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/data_provider/deserializer/sensor_message_deserializer.c
    )
 
 target_include_directories (concentrator 
@@ -18,6 +20,8 @@ target_include_directories (concentrator
     ${CMAKE_CURRENT_LIST_DIR}/src/web_controller
     ${CMAKE_CURRENT_LIST_DIR}/src/web_controller/handlers
     ${CMAKE_CURRENT_LIST_DIR}/src/web_controller/webserver
+    ${CMAKE_CURRENT_LIST_DIR}/src/dto
+    ${CMAKE_CURRENT_LIST_DIR}/src/data_provider/deserializer
    )
 
 
