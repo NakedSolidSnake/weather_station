@@ -1,6 +1,6 @@
 FROM ubuntu
 
-RUN apt-get update && apt-get install pip cmake g++ -y
+RUN apt-get update && apt-get install pip cmake g++ gdb uuid-dev -y
 
 RUN pip install conan==1.59
 

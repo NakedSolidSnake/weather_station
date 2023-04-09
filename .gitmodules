@@ -1,3 +1,6 @@
 [submodule "communication"]
 	path = communication
 	url = https://github.com/NakedSolidSnake/communication.git
+[submodule "sat"]
+	path = sat
+	url = https://github.com/NakedSolidSnake/sat.git
