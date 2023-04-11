@@ -3,6 +3,7 @@
 
 #include <time.h>
 
+#define SENSOR_AMOUNT   3
 typedef enum 
 {
     sensor_type_temperature = 1,

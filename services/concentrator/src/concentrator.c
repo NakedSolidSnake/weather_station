@@ -16,7 +16,8 @@ bool concentrator_init (concentrator_t *object)
     if (object != NULL)
     {
         if (udp_controller_init (&object->udp) == true && 
-            web_controller_init (&object->web) == true)
+            web_controller_init (&object->web) == true && 
+            service_init (&object->service) == true)
         {
             status = true;
         }
@@ -32,7 +33,8 @@ bool concentrator_open (concentrator_t *object)
     if (object != NULL)
     {
         if (concentrator_udp_controller_open (object) == true &&
-            concentrator_web_controller_open (object) == true)
+            concentrator_web_controller_open (object) == true &&
+            service_open (&object->service) == true)
         {
             status = true;
         }
@@ -69,7 +71,8 @@ bool concentrator_close (concentrator_t *object)
     if (object != NULL)
     {
         if (udp_controller_close (&object->udp) == true && 
-            web_controller_close (&object->web) == true)
+            web_controller_close (&object->web) == true && 
+            service_close (&object->service) == true)
         {
             status = true;
         }
@@ -91,6 +94,7 @@ static bool concentrator_udp_controller_open (concentrator_t *object)
             .buffer = object->buffer,
             .size = BUFFER_SIZE,
             .on_receive = events_on_receive,
+            .data = &object->service
         }
     };
 
@@ -112,7 +116,7 @@ static bool concentrator_web_controller_open (concentrator_t *object)
     {
         list->handles[0].endpoint = "/";
         list->handles[0].handler = handler_index;
-        list->handles[0].data = NULL;
+        list->handles[0].data = &object->service;
 
         list->amount = 1;
 
