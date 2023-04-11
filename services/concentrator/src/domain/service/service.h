@@ -3,10 +3,11 @@
 
 #include <stdbool.h>
 #include <sensor.h>
+#include <repository.h>
 
 typedef struct 
 {
-    int dummy;
+    repository_t repository;
 } service_t;
 
 bool service_init (service_t *object);
