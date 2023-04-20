@@ -1,3 +1,5 @@
 build
 .vscode
 conan
+services/franzininho/udp_client/sdkconfig
+services/franzininho/udp_client/sdkconfig.old
