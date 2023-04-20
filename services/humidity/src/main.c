@@ -12,7 +12,7 @@ int main (int argc, char *argv[])
     producer_args_t args = 
     {
         .hostname = "localhost",
-        .port = "1234",
+        .port = "8089",
         .delay = 4000000
     };
 

@@ -90,7 +90,7 @@ static bool concentrator_udp_controller_open (concentrator_t *object)
         .udp = 
         {
             .type = udp_type_server,
-            .port = "1234",
+            .port = "8089",
             .buffer = object->buffer,
             .size = BUFFER_SIZE,
             .on_receive = events_on_receive,
