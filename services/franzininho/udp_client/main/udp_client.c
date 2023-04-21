@@ -25,6 +25,7 @@
 #include "lwip/sys.h"
 #include <lwip/netdb.h>
 #include "addr_from_stdin.h"
+#include <dht.h>
 
 #if defined(CONFIG_EXAMPLE_IPV4)
 #define HOST_IP_ADDR CONFIG_EXAMPLE_IPV4_ADDR
@@ -54,6 +55,10 @@ static void udp_client_task(void *pvParameters)
     struct tm *info;
     char buffer [50];
     char message [200];
+
+    float temperature, humidity;
+
+    gpio_set_pull_mode(17, 0);
 
     while (1) {
 
@@ -100,6 +105,9 @@ static void udp_client_task(void *pvParameters)
                 break;
             }
             ESP_LOGI(TAG, "Message sent");
+
+            if (dht_read_float_data(DHT_TYPE_DHT11, 17, &humidity, &temperature) == ESP_OK)
+            printf("Humidity: %.1f%% Temp: %.1fC\n", humidity, temperature);
 
             vTaskDelay(2000 / portTICK_PERIOD_MS);
         }
