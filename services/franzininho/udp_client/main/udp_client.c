@@ -26,6 +26,7 @@
 #include <lwip/netdb.h>
 #include "addr_from_stdin.h"
 #include <dht.h>
+#include <bmp280.h>
 
 #if defined(CONFIG_EXAMPLE_IPV4)
 #define HOST_IP_ADDR CONFIG_EXAMPLE_IPV4_ADDR
@@ -56,9 +57,20 @@ static void udp_client_task(void *pvParameters)
     char buffer [50];
     char message [200];
 
-    float temperature, humidity;
+    float temperature, humidity, pressure;
 
     gpio_set_pull_mode(17, 0);
+
+    bmp280_params_t params;
+    bmp280_init_default_params(&params);
+    bmp280_t dev;
+    memset(&dev, 0, sizeof(bmp280_t));
+
+    ESP_ERROR_CHECK(bmp280_init_desc(&dev, BMP280_I2C_ADDRESS_0, 0, 8, 9));
+    ESP_ERROR_CHECK(bmp280_init(&dev, &params));
+
+    bool bme280p = dev.id == BME280_CHIP_ID;
+    printf("BMP280: found %s\n", bme280p ? "BME280" : "BMP280");
 
     while (1) {
 
@@ -109,6 +121,22 @@ static void udp_client_task(void *pvParameters)
             if (dht_read_float_data(DHT_TYPE_DHT11, 17, &humidity, &temperature) == ESP_OK)
             printf("Humidity: %.1f%% Temp: %.1fC\n", humidity, temperature);
 
+            if (bmp280_read_float(&dev, &temperature, &pressure, &humidity) != ESP_OK)
+            {
+                printf("Temperature/pressure reading failed\n");
+                continue;
+            }
+
+            /* float is used in printf(). you need non-default configuration in
+            * sdkconfig for ESP8266, which is enabled by default for this
+            * example. see sdkconfig.defaults.esp8266
+            */
+            printf("Pressure: %.2f Pa, Temperature: %.2f C", pressure, temperature);
+            if (bme280p)
+                printf(", Humidity: %.2f\n", humidity);
+            else
+                printf("\n");
+
             vTaskDelay(2000 / portTICK_PERIOD_MS);
         }
 
@@ -134,6 +162,8 @@ void app_main(void)
     ESP_ERROR_CHECK(example_connect());
 
     obtain_time();
+
+    ESP_ERROR_CHECK(i2cdev_init());
 
     xTaskCreate(udp_client_task, "udp_client", 4096, NULL, 5, NULL);
 }
